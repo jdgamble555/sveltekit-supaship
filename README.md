@@ -1,5 +1,16 @@
 # create-svelte
 
+## 1 - install supabase cli
+- npm i supabase --save-dev
+- npx supabase init
+- npx supabase start
+
+[comment]: need to later disable confirm email and secure email changes at http://localhost:54323/ - supabase -config.toml
+
+- npx supabase migration new starting-ddl (original-ddl)
+- npx playwright install
+- install tailwind - https://tailwindcss.com/docs/guides/sveltekit
+
 Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
 
 ## Creating a project
