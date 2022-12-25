@@ -1,6 +1,8 @@
+import { goto } from "$app/navigation";
+import { page } from "$app/stores";
 import type { RealtimeChannel, Session } from "@supabase/supabase-js";
-import { derived, readable } from "svelte/store";
-
+import { derived, get, readable } from "svelte/store";
+import { returnPath } from "./stores";
 import { supaClient } from "./supa-client";
 
 export interface UserProfile {
@@ -30,7 +32,10 @@ const auth = readable<Session | null>(null, set => {
 
 export const useSession = derived<typeof auth, SupashipUserInfo>(auth, (_session, set) => {
 
-    const profile = null;
+    let profile: null | {
+        user_id: string
+        username: string
+    } = null;
     const session = _session;
     const userId = _session?.user.id;
 
@@ -44,9 +49,14 @@ export const useSession = derived<typeof auth, SupashipUserInfo>(auth, (_session
             .select("*")
             .filter("user_id", "eq", userId).then(({ data }) => {
                 if (data?.[0]) {
-
-                    // set profile data
-                    set({ session, profile: data?.[0] });
+                    profile = data[0];
+                }
+                // set profile data
+                set({ session, profile });
+                
+                if (!profile) {
+                    returnPath.set(get(page).url.pathname);
+                    goto('/welcome');
                 }
             });
 
@@ -68,10 +78,10 @@ export const useSession = derived<typeof auth, SupashipUserInfo>(auth, (_session
                 }
             )
             .subscribe();
+    } else {
+        // set default value
+        set({ session, profile });
     }
-
-    // set default value
-    set({ session, profile });
 
     return () => channel ? channel.unsubscribe() : null;
 });

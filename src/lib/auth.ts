@@ -3,7 +3,6 @@ import { get } from "svelte/store";
 import { showModal } from "./stores";
 import { supaClient } from "./supa-client";
 
-
 export const signInWithPassword = async (email: string, password: string) => {
     const { error } = await supaClient.auth.signInWithPassword({
         email,
