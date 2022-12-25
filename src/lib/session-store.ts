@@ -32,7 +32,7 @@ export const useSession = derived<typeof auth, SupashipUserInfo>(auth, (_session
 
     const profile = null;
     const session = _session;
-    const userId = _session?.user;
+    const userId = _session?.user.id;
 
     let channel: RealtimeChannel;
 
@@ -68,11 +68,10 @@ export const useSession = derived<typeof auth, SupashipUserInfo>(auth, (_session
                 }
             )
             .subscribe();
-    } else {
-
-        // set default value
-        set({ session, profile });
     }
+
+    // set default value
+    set({ session, profile });
 
     return () => channel ? channel.unsubscribe() : null;
 });

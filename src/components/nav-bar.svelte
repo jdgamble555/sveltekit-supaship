@@ -6,7 +6,7 @@
 	import Login from './login.svelte';
 	import UserMenu from './user-menu.svelte';
 
-	const { session } = $useSession;
+	$: ({ session } = $useSession);
 </script>
 
 <nav class="nav-bar">

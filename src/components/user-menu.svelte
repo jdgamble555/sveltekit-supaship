@@ -2,7 +2,7 @@
 	import { useSession } from '$lib/session-store';
 	import { supaClient } from '$lib/supa-client';
 
-	const { profile } = $useSession;
+	$: ({ profile } = $useSession);
 </script>
 
 <div class="flex flex-col">

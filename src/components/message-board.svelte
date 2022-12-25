@@ -2,7 +2,7 @@
 	import { useSession } from '$lib/session-store';
 	import Login from './login.svelte';
 
-	const { session } = $useSession;
+	$: ({ session } = $useSession);
 </script>
 
 <div class="message-board-container">
