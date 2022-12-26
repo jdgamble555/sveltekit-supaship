@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { useSession } from '$lib/session-store';
+	import { bumper } from '$lib/stores';
 	import { supaClient } from '$lib/supa-client';
 	import { createForm } from 'svelte-forms-lib';
 	import { get } from 'svelte/store';
@@ -8,7 +9,7 @@
 
 	const userId = (session?.user.id as string) || '';
 
-	const { form, handleChange, handleSubmit } = createForm({
+	const { form, handleChange, handleSubmit, handleReset } = createForm({
 		initialValues: {
 			title: '',
 			content: ''
@@ -23,6 +24,9 @@
 				.then(({ error }) => {
 					if (error) {
 						console.error(error);
+					} else {
+						bumper.update((v) => ++v);
+						handleReset();
 					}
 				});
 		}
@@ -34,14 +38,14 @@
 	<input
 		type="text"
 		name="title"
-		on:input={handleChange}
+		on:change={handleChange}
 		bind:value={$form.title}
 		class="create-post-title-input"
 		placeholder="Your Title Here"
 	/>
 	<textarea
 		name="contents"
-		on:input={handleChange}
+		on:change={handleChange}
 		bind:value={$form.content}
 		placeholder="Your content here"
 		class="create-post-content-input"
