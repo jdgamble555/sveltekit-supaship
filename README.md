@@ -10,7 +10,7 @@
 - npx supabase migration new starting-ddl (original-ddl)
 - npx playwright install
 - install tailwind - https://tailwindcss.com/docs/guides/sveltekit
-- npx supabase gen types typescript --local > ./src/database.types.ts
+- npx supabase gen types typescript --local > src/lib/database.types.ts
 
 Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
 
