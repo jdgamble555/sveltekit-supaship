@@ -8,6 +8,7 @@ export async function setupE2eTest() {
 }
 
 async function startSupabase() {
+  execSync("npx supabase stop");
   const port = await detect(64321);
   if (port !== 64321) {
     return;
