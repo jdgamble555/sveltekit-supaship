@@ -2,6 +2,7 @@
 	import type { GetSinglePostWithCommentResponse } from '$lib/database.types';
 	import type { Comment } from '$lib/post.types';
 	import { useSession } from '$lib/session-store';
+	import { bumper } from '$lib/stores';
 	import { supaClient } from '$lib/supa-client';
 	import { createForm } from 'svelte-forms-lib';
 	import { get } from 'svelte/store';
@@ -29,6 +30,7 @@
 						console.log(error);
 					} else {
 						handleReset();
+						bumper.update((v) => ++v);
 						commenting = false;
 					}
 				});

@@ -5,14 +5,15 @@
 	import { derived } from 'svelte/store';
 	import PostPresentation from './post-presentation.svelte';
 	import { unsortedCommentsToNested } from '$lib/comments';
+	import { bumper } from '$lib/stores';
 
 	export let postId: string;
 
 	const params = { postId };
 
-	const postDetailData = derived<typeof useSession, PostDetailData>(
-		useSession,
-		(userContext, set) => {
+	const postDetailData = derived<[typeof useSession, typeof bumper], PostDetailData>(
+		[useSession, bumper],
+		([userContext, _bumper], set) => {
 			getPostDetails({ params, userContext }).then((newPostDetailData) => {
 				if (newPostDetailData) {
 					set(newPostDetailData);

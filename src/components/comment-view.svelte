@@ -72,7 +72,7 @@
 					</button>
 				</div>
 			{/if}
-			{#each comment.comments as c (comment.id)}
+			{#each comment.comments as c (c.id)}
 				<CommentView comment={c} />
 			{/each}
 		</div>
