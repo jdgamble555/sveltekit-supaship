@@ -1,8 +1,6 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import PostView from '@components/post-view.svelte';
-	import type { PageData } from './$types';
-
-	export let data: PageData;
 </script>
 
-<PostView postId={data.postId} />
+<PostView postId={$page.params.postId} />
