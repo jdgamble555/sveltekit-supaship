@@ -9,9 +9,7 @@
 	<a href="/1">
 		<h2 class="message-board-header-link">Message Board</h2>
 	</a>
-	{#if session}
-		<div />
-	{:else}
+	{#if !session}
 		<h2 class="message-board-login-message" data-e2e="message-board-login">
 			Yo Dawg. you gotta <Login /> to join in the discussion.
 		</h2>
