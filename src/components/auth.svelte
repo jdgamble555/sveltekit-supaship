@@ -9,6 +9,8 @@
 	import { authMode } from '$lib/stores';
 	import Google from './google.svelte';
 
+	$: serverError = '';
+
 	const toggleAuth = () => authMode.set($authMode === 'sign_in' ? 'sign_up' : 'sign_in');
 
 	const submitForm = (e: Event) => {
@@ -17,15 +19,27 @@
 
 		switch ($authMode) {
 			case 'sign_up':
-				signUpWithPassword(email as string, password as string);
+				signUpWithPassword(email as string, password as string).then(({ error }) => {
+					if (error) {
+						serverError = error.message;
+					}
+				});
 				break;
 
 			case 'sign_in':
-				signInWithPassword(email as string, password as string);
+				signInWithPassword(email as string, password as string).then(({ error }) => {
+					if (error) {
+						serverError = error.message;
+					}
+				});
 				break;
 
 			case 'forgot':
-				sendPasswordEmail(email as string);
+				sendPasswordEmail(email as string).then(({ error }) => {
+					if (error) {
+						serverError = error.message;
+					}
+				});
 		}
 	};
 </script>
@@ -54,6 +68,11 @@
 				name="password"
 				class="w-full text-2xl font-display font-normal rounded border-2 text-green-400 border-green-400 text-center drop-shadow-[0_0_9px_rgba(34,197,94,0.9)] bg-white"
 			/>
+			{#if serverError}
+				<p class="welcome-form-error-message validation-feedback">
+					{serverError}
+				</p>
+			{/if}
 		{/if}
 		<div class="my-1" />
 		<button

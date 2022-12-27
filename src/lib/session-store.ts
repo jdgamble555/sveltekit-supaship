@@ -39,8 +39,6 @@ export const useSession = derived<typeof auth, SupashipUserInfo>(auth, (_session
     const session = _session;
     const userId = _session?.user.id;
 
-    console.log('session store sub...');
-
     let channel: RealtimeChannel;
 
     if (userId) {

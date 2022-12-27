@@ -10,8 +10,10 @@ export const signInWithPassword = async (email: string, password: string) => {
     });
     if (error) {
         console.error(error);
+    } else {
+        showModal.set(false);
     }
-    showModal.set(false);
+    return { error };
 };
 
 export const signUpWithPassword = async (email: string, password: string) => {
@@ -21,8 +23,10 @@ export const signUpWithPassword = async (email: string, password: string) => {
     });
     if (error) {
         console.error(error);
+    } else {
+        showModal.set(false);
     }
-    showModal.set(false);
+    return { error };
 };
 
 export const signInWithGoogle = async () => {
@@ -34,8 +38,10 @@ export const signInWithGoogle = async () => {
     });
     if (error) {
         console.error(error);
+    } else {
+       showModal.set(false); 
     }
-    showModal.set(false);
+    return { error };
 };
 
 export const sendPasswordEmail = async (email: string) => {
@@ -44,8 +50,10 @@ export const sendPasswordEmail = async (email: string) => {
     });
     if (error) {
         console.error(error);
+    } else {
+        showModal.set(false);
     }
-    showModal.set(false);
+    return { error };
 };
 
 export const logout = async () => {
