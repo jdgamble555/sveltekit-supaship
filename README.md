@@ -12,6 +12,9 @@
 - install tailwind - https://tailwindcss.com/docs/guides/sveltekit
 - npx supabase gen types typescript --local > src/lib/database.types.ts
 
+- npx supabase link --project-ref=<ref in your supabase url> --password=<db password>
+- npx db push
+
 Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
 
 ## Creating a project
