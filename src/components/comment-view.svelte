@@ -5,10 +5,12 @@
 	import { timeAgo } from '$lib/time-ago';
 	import CreateComment from './create-comment.svelte';
 	import CommentView from './comment-view.svelte';
+	import UpVote from './up-vote.svelte';
 
 	export let comment: Comment;
+	export let myVotes: Record<string, 'up' | 'down' | undefined> | undefined;
 
-	const { session } = $useSession;
+	$: ({ session } = $useSession);
 
 	let commenting = false;
 
@@ -18,43 +20,23 @@
 <div class="post-detail-comment-container" data-e2e={`comment-${comment.id}`}>
 	<div class="post-detail-comment-inner-container">
 		<div class="post-detail-comment-upvote-container">
-			<!--
-                <UpVote
-              direction="up"
-              filled={myVotes?.[comment.id] === "up"}
-              enabled={!!session}
-              on:click={async () => {
-                await castVote({
-                  postId: comment.id,
-                  userId: session?.user.id as string,
-                  voteType: "up",
-                  onSuccess: () => {
-                    onVoteSuccess();
-                  },
-                });
-              }}
-            />
-            -->
+			<UpVote
+				direction="up"
+				filled={myVotes?.[comment.id] === 'up'}
+				enabled={!!session}
+				{session}
+				postId={comment.id}
+			/>
 			<p class="text-center" data-e2e="upvote-count">
 				{$score}
 			</p>
-			<!--
-                <UpVote
-              direction="down"
-              filled={myVotes?.[comment.id] === "down"}
-              enabled={!!session}
-              onClick={async () => {
-                await castVote({
-                  postId: comment.id,
-                  userId: session?.user.id as string,
-                  voteType: "down",
-                  onSuccess: () => {
-                    onVoteSuccess();
-                  },
-                });
-              }}
-            />
-            -->
+			<UpVote
+				direction="down"
+				filled={myVotes?.[comment.id] === 'down'}
+				enabled={!!session}
+				{session}
+				postId={comment.id}
+			/>
 		</div>
 		<div class="post-detail-comment-body">
 			<p>
@@ -73,7 +55,7 @@
 				</div>
 			{/if}
 			{#each comment.comments as c (c.id)}
-				<CommentView comment={c} />
+				<CommentView comment={c} {myVotes} />
 			{/each}
 		</div>
 	</div>

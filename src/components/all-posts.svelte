@@ -55,22 +55,7 @@
 {#if $posts?.data}
 	<div class="posts-container">
 		{#each $posts?.data as post (post.id)}
-			<Post postData={post} />
+			<Post postData={post} myVote={$posts.votes?.[post.id] || undefined} />
 		{/each}
 	</div>
 {/if}
-
-<!--
-      <div class="posts-container">
-    {posts?.map((post, i) => (
-      <Post
-        key={post.id}
-        postData={post}
-        myVote={myVotes?.[post.id] || undefined}
-        onVoteSuccess={() => {
-          setBumper(bumper + 1);
-        }}
-      />
-    ))}
-  </div>
--->

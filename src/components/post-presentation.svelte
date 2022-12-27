@@ -5,6 +5,7 @@
 	import { timeAgo } from '$lib/time-ago';
 	import CommentView from './comment-view.svelte';
 	import CreateComment from './create-comment.svelte';
+	import UpVote from './up-vote.svelte';
 
 	export let postDetailData: PostDetailData;
 	export let nestedComments: Comment[];
@@ -17,57 +18,27 @@
 <div class="post-detail-outer-container">
 	<div class="post-detail-inner-container">
 		<div class="post-detail-upvote-container">
-			<!--
-            <UpVote
-          direction="up"
-          filled={
-            postDetailData.myVotes &&
-            postDetailData.post &&
-            postDetailData.myVotes[postDetailData.post.id] === "up"
-          }
-          enabled={!!userContext.session}
-          onClick={async () => {
-            if (!postDetailData.post) {
-              return;
-            }
-            await castVote({
-              postId: postDetailData.post.id,
-              userId: userContext.session?.user.id as string,
-              voteType: "up",
-              onSuccess: () => {
-                setBumper(bumper + 1);
-              },
-            });
-          }}
-        />
-        -->
+			<UpVote
+				direction="up"
+				filled={!!postDetailData.myVotes &&
+					!!postDetailData.post &&
+					postDetailData.myVotes[postDetailData.post.id] === 'up'}
+				enabled={!!session}
+				{session}
+				postId={postDetailData.post?.id || ''}
+			/>
 			<p class="text-center" data-e2e="upvote-count">
 				{$score}
 			</p>
-			<!--
-            <UpVote
-          direction="down"
-          filled={
-            postDetailData.myVotes &&
-            postDetailData.post &&
-            postDetailData.myVotes[postDetailData.post.id] === "down"
-          }
-          enabled={!!userContext.session}
-          onClick={async () => {
-            if (!postDetailData.post) {
-              return;
-            }
-            await castVote({
-              postId: postDetailData.post.id,
-              userId: userContext.session?.user.id as string,
-              voteType: "down",
-              onSuccess: () => {
-                setBumper(bumper + 1);
-              },
-            });
-          }}
-        />
-        -->
+			<UpVote
+				direction="down"
+				filled={!!postDetailData.myVotes &&
+					!!postDetailData.post &&
+					postDetailData.myVotes[postDetailData.post.id] === 'down'}
+				enabled={!!session}
+				{session}
+				postId={postDetailData.post?.id || ''}
+			/>
 		</div>
 
 		<div class="post-detail-body">
@@ -83,7 +54,7 @@
 				<CreateComment parent={postDetailData.post} />
 			{/if}
 			{#each nestedComments as comment (comment.id)}
-				<CommentView {comment} />
+				<CommentView {comment} myVotes={postDetailData.myVotes} />
 			{/each}
 		</div>
 	</div>
