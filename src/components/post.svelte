@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { GetPostsResponse } from '$lib/database.types';
-	import { usePostScore } from '$lib/post-score';
+	import { usePostScore } from '$lib/post-score-store';
 	import { timeAgo } from '$lib/time-ago';
 
 	export let postData: GetPostsResponse;

@@ -1,9 +1,15 @@
 <script lang="ts">
-	import { usePostScore } from '$lib/post-score';
-	import type { PostDetailData } from '$lib/post.types';
+	import { usePostScore } from '$lib/post-score-store';
+	import type { PostDetailData, Comment } from '$lib/post.types';
+	import { useSession } from '$lib/session-store';
 	import { timeAgo } from '$lib/time-ago';
+	import CommentView from './comment-view.svelte';
+	import CreateComment from './create-comment.svelte';
 
 	export let postDetailData: PostDetailData;
+	export let nestedComments: Comment[];
+
+	$: ({ session } = $useSession);
 
 	const score = usePostScore(postDetailData.post?.id || '', postDetailData.post?.score);
 </script>
@@ -73,25 +79,12 @@
 			<p class="post-detail-content" data-e2e="post-content">
 				{postDetailData.post?.content}
 			</p>
-			<!--
-             {userContext.session && postDetailData.post && (
-          <CreateComment
-            parent={postDetailData.post}
-            onSuccess={() => {
-              setBumper(bumper + 1);
-            }}
-          />
-        )}
-        {nestedComments.map((comment) => (
-          <CommentView
-            key={comment.id}
-            comment={comment}
-            myVotes={postDetailData.myVotes}
-            onVoteSuccess={() => {
-              setBumper(bumper + 1);
-            }}
-          />
-        ))}-->
+			{#if session && postDetailData?.post}
+				<CreateComment parent={postDetailData.post} />
+			{/if}
+			{#each nestedComments as comment (comment.id)}
+				<CommentView {comment} />
+			{/each}
 		</div>
 	</div>
 </div>

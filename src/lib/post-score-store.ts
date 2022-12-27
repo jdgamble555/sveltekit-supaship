@@ -18,6 +18,6 @@ export const usePostScore = (postId: string, initialScore: number | undefined) =
                 }
             )
             .subscribe()
-        return channel.unsubscribe;
+        return () => channel ? channel.unsubscribe() : null;
     });
 };

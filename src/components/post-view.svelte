@@ -4,6 +4,7 @@
 	import { useSession } from '$lib/session-store';
 	import { derived } from 'svelte/store';
 	import PostPresentation from './post-presentation.svelte';
+	import { unsortedCommentsToNested } from '$lib/comments';
 
 	export let postId: string;
 
@@ -21,8 +22,9 @@
 	);
 </script>
 
-<!--
-    <PostPresentation {postDetailData} {userContext} {setBumper} {bumper} {nestedComments} />
--->
-
-<PostPresentation postDetailData={$postDetailData} />
+{#if $postDetailData}
+	<PostPresentation
+		postDetailData={$postDetailData}
+		nestedComments={unsortedCommentsToNested($postDetailData.comments)}
+	/>
+{/if}

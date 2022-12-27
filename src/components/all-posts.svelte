@@ -54,7 +54,7 @@
 
 {#if $posts?.data}
 	<div class="posts-container">
-		{#each $posts.data as post (post.id)}
+		{#each $posts?.data as post (post.id)}
 			<Post postData={post} />
 		{/each}
 	</div>
